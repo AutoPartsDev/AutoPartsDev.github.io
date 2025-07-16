@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOZAP - Интернет-магазин автозапчастей</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/7237d35ff1.js" crossorigin="anonymous"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css"> -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333333;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .bg-primary {
+            background-color: #005BAA;
+        }
+
+        .text-primary {
+            color: #005BAA;
+        }
+
+        .bg-accent {
+            background-color: #E30613;
+        }
+
+        .text-accent {
+            color: #E30613;
+        }
+
+        .bg-promo {
+            background-color: #FFC107;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1541899481282-d53b3e38ef9f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-slider {
+            scroll-behavior: smooth;
+        }
+
+        .hamburger {
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-white">AUTOZAP</a>
+                </div>
+
+                <!-- Search (hidden on mobile) -->
+                <div class="hidden md:flex flex-1 mx-4 max-w-xl">
+                    <div class="relative w-full">
+                        <input type="text" placeholder="Поиск по артикулу или названию"
+                            class="w-full px-4 py-2 rounded-full text-gray-800 focus:outline-none">
+                        <button class="absolute right-0 top-0 h-full px-4 text-gray-500">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Icons -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-1 cursor-pointer hover:text-gray-200">
+                        <i class="far fa-heart text-xl"></i>
+                        <span class="text-sm">Избранное</span>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-1 cursor-pointer hover:text-gray-200">
+                        <i class="far fa-user text-xl"></i>
+                        <span class="text-sm">Войти</span>
+                    </div>
+                    <div class="flex items-center space-x-1 cursor-pointer relative hover:text-gray-200">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="text-sm hidden md:inline">Корзина</span>
+                        <span
+                            class="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </div>
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-button" class="md:hidden ml-2">
+                        <div class="hamburger">
+                            <div class="hamburger-line w-6 h-0.5 bg-white my-1.5 transition-all"></div>
+                            <div class="hamburger-line w-6 h-0.5 bg-white my-1.5 transition-all"></div>
+                            <div class="hamburger-line w-6 h-0.5 bg-white my-1.5 transition-all"></div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile search (visible on mobile) -->
+            <div class="mt-3 md:hidden">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Поиск по артикулу или названию"
+                        class="w-full px-4 py-2 rounded-full text-gray-800 focus:outline-none">
+                    <button class="absolute right-0 top-0 h-full px-4 text-gray-500">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="hidden md:block mt-4">
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-gray-200 font-medium">Главная</a></li>
+                    <li><a href="#" class="hover:text-gray-200 font-medium">Каталог</a></li>
+                    <li><a href="#" class="hover:text-gray-200 font-medium">Автоподбор</a></li>
+                    <li><a href="#" class="hover:text-gray-200 font-medium">Доставка</a></li>
+                    <li><a href="#" class="hover:text-gray-200 font-medium">Акции</a></li>
+                    <li><a href="#" class="hover:text-gray-200 font-medium">Контакты</a></li>
+                </ul>
+            </nav>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="mobile-menu md:hidden">
+                <ul class="py-2 space-y-2">
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded">Главная</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded">Каталог</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded">Автоподбор</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded">Доставка</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded">Акции</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded">Контакты</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded md:hidden">Избранное</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-blue-700 px-2 rounded md:hidden">Войти</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-bg text-white py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4">Оригинальные автозапчасти с гарантией</h1>
+                <p class="text-xl mb-8">Бесплатная доставка от 3000₽</p>
+                <a href="#"
+                    class="bg-accent hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full inline-block transition duration-300">
+                    Перейти в каталог
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Car Finder Widget -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">Найдите запчасти для вашего автомобиля</h2>
+
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- Brand Select -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">Марка</label>
+                        <select
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Выберите марку</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="volkswagen">Volkswagen</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                            <option value="mercedes">Mercedes-Benz</option>
+                        </select>
+                    </div>
+
+                    <!-- Model Select -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">Модель</label>
+                        <select
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            disabled>
+                            <option value="">Сначала выберите марку</option>
+                        </select>
+                    </div>
+
+                    <!-- Year Select -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">Год выпуска</label>
+                        <select
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            disabled>
+                            <option value="">Сначала выберите модель</option>
+                        </select>
+                    </div>
+
+                    <!-- Engine Select -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">Двигатель</label>
+                        <select
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            disabled>
+                            <option value="">Сначала выберите год</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex flex-col md:flex-row items-center justify-between">
+                    <button
+                        class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 w-full md:w-auto mb-4 md:mb-0">
+                        Найти запчасти
+                    </button>
+                    <a href="#" class="text-primary hover:underline">Или введите VIN-номер</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Categories -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">Популярные категории</h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <!-- Category 1 -->
+                <a href="#" class="category-card bg-white rounded-lg shadow-md p-6 text-center transition duration-300">
+                    <div class="text-primary text-4xl mb-4">
+                        <!-- <i class="fas fa-brake-warning"></i> -->
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <h3 class="font-bold">Тормозная система</h3>
+                </a>
+
+                <!-- Category 2 -->
+                <a href="#" class="category-card bg-white rounded-lg shadow-md p-6 text-center transition duration-300">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3 class="font-bold">Фильтры</h3>
+                </a>
+
+                <!-- Category 3 -->
+                <a href="#" class="category-card bg-white rounded-lg shadow-md p-6 text-center transition duration-300">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-oil-can"></i>
+                    </div>
+                    <h3 class="font-bold">Автомасла</h3>
+                </a>
+
+                <!-- Category 4 -->
+                <a href="#" class="category-card bg-white rounded-lg shadow-md p-6 text-center transition duration-300">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-car-battery"></i>
+                    </div>
+                    <h3 class="font-bold">Аккумуляторы</h3>
+                </a>
+
+                <!-- Category 5 -->
+                <a href="#" class="category-card bg-white rounded-lg shadow-md p-6 text-center transition duration-300">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="font-bold">Свечи зажигания</h3>
+                </a>
+
+                <!-- Category 6 -->
+                <a href="#" class="category-card bg-white rounded-lg shadow-md p-6 text-center transition duration-300">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="font-bold">Автолампы</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold flex-grow">Горячие предложения</h2>
+                <a href="#" class="text-primary hover:underline">Все акции →</a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                            alt="Тормозные колодки" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-promo text-black text-xs font-bold px-2 py-1 rounded">
+                            -15%
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-2 line-clamp-2">Тормозные колодки Brembo для BMW 3 серии (F30)</h3>
+                        <p class="text-gray-500 text-sm mb-2">Артикул: BRE-12345</p>
+                        <div class="flex items-center mb-4">
+                            <span class="text-accent font-bold text-xl">4 290₽</span>
+                            <span class="text-gray-400 line-through ml-2">5 050₽</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1619441207978-3d326c46e2c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+                            alt="Моторное масло" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-promo text-black text-xs font-bold px-2 py-1 rounded">
+                            -10%
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-2 line-clamp-2">Моторное масло Castrol EDGE 5W-30 4л</h3>
+                        <p class="text-gray-500 text-sm mb-2">Артикул: CAS-56789</p>
+                        <div class="flex items-center mb-4">
+                            <span class="text-accent font-bold text-xl">3 490₽</span>
+                            <span class="text-gray-400 line-through ml-2">3 880₽</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1592078615290-033ee584e267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80"
+                            alt="Воздушный фильтр" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-promo text-black text-xs font-bold px-2 py-1 rounded">
+                            -20%
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-2 line-clamp-2">Воздушный фильтр MANN для Volkswagen Golf</h3>
+                        <p class="text-gray-500 text-sm mb-2">Артикул: MAN-34567</p>
+                        <div class="flex items-center mb-4">
+                            <span class="text-accent font-bold text-xl">1 290₽</span>
+                            <span class="text-gray-400 line-through ml-2">1 610₽</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1554744512-d6c603f27c54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                            alt="Свечи зажигания" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-promo text-black text-xs font-bold px-2 py-1 rounded">
+                            -25%
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-2 line-clamp-2">Свечи зажигания NGK Laser Iridium для Audi A4</h3>
+                        <p class="text-gray-500 text-sm mb-2">Артикул: NGK-78901</p>
+                        <div class="flex items-center mb-4">
+                            <span class="text-accent font-bold text-xl">2 990₽</span>
+                            <span class="text-gray-400 line-through ml-2">3 990₽</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                            В корзину
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advantages -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">Почему выбирают нас?</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Advantage 1 -->
+                <div class="text-center">
+                    <div class="text-primary text-5xl mb-4">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Гарантия качества</h3>
+                    <p class="text-gray-600">Все запчасти проходят тщательную проверку перед продажей</p>
+                </div>
+
+                <!-- Advantage 2 -->
+                <div class="text-center">
+                    <div class="text-primary text-5xl mb-4">
+                        <i class="fas fa-truck-fast"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Быстрая доставка</h3>
+                    <p class="text-gray-600">Доставка в день заказа или на следующий день</p>
+                </div>
+
+                <!-- Advantage 3 -->
+                <div class="text-center">
+                    <div class="text-primary text-5xl mb-4">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Оригинальные запчасти</h3>
+                    <p class="text-gray-600">Работаем только с проверенными поставщиками</p>
+                </div>
+
+                <!-- Advantage 4 -->
+                <div class="text-center">
+                    <div class="text-primary text-5xl mb-4">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Профессиональная консультация</h3>
+                    <p class="text-gray-600">Наши специалисты помогут с выбором запчастей</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Brands -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">Популярные бренды</h2>
+
+            <div class="relative">
+                <div class="brand-slider overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                    <div class="inline-flex space-x-8">
+                        <!-- Brand 1 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Bosch-logo.svg/2560px-Bosch-logo.svg.png"
+                                alt="Bosch" class="max-h-full max-w-full object-contain">
+                        </div>
+
+                        <!-- Brand 2 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Castrol_logo.svg/1200px-Castrol_logo.svg.png"
+                                alt="Castrol" class="max-h-full max-w-full object-contain">
+                        </div>
+
+                        <!-- Brand 3 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/MANN-FILTER_Logo.svg/1200px-MANN-FILTER_Logo.svg.png"
+                                alt="Mann" class="max-h-full max-w-full object-contain">
+                        </div>
+
+                        <!-- Brand 4 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Brembo_logo.svg/2560px-Brembo_logo.svg.png"
+                                alt="Brembo" class="max-h-full max-w-full object-contain">
+                        </div>
+
+                        <!-- Brand 5 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/NGK_Spark_Plug_Logo.svg/1200px-NGK_Spark_Plug_Logo.svg.png"
+                                alt="NGK" class="max-h-full max-w-full object-contain">
+                        </div>
+
+                        <!-- Brand 6 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Philips_logo.svg/2560px-Philips_logo.svg.png"
+                                alt="Philips" class="max-h-full max-w-full object-contain">
+                        </div>
+
+                        <!-- Brand 7 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mobil_logo.svg/2560px-Mobil_logo.svg.png"
+                                alt="Mobil" class="max-h-full max-w-full object-contain">
+                        </div>
+
+                        <!-- Brand 8 -->
+                        <div
+                            class="inline-block w-32 h-20 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Shell_logo.svg/2560px-Shell_logo.svg.png"
+                                alt="Shell" class="max-h-full max-w-full object-contain">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">О магазине</h3>
+                    <p class="text-gray-400 mb-4">AUTOZAP - интернет-магазин автозапчастей с 2010 года. Мы предлагаем
+                        оригинальные запчасти и расходные материалы для всех популярных марок автомобилей.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-vk text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-telegram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Категории</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Тормозная система</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Фильтры</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Автомасла</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Аккумуляторы</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Свечи зажигания</a></li>
+                    </ul>
+                </div>
+
+                <!-- Information -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Информация</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Доставка и оплата</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Гарантия и возврат</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">О компании</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Акции</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Блог</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacts -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Контакты</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2 text-gray-400"></i>
+                            <div>
+                                <a href="tel:+78001234567" class="text-gray-400 hover:text-white">8 (800) 123-45-67</a>
+                                <p class="text-xs text-gray-500">Бесплатный звонок по России</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="far fa-envelope mr-2 text-gray-400"></i>
+                            <a href="mailto:info@autozap.ru" class="text-gray-400 hover:text-white">info@autozap.ru</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-gray-400"></i>
+                            <div>
+                                <p class="text-gray-400">г. Москва, ул. Автозаводская, д. 23</p>
+                                <p class="text-xs text-gray-500">Пн-Пт: 9:00-20:00, Сб-Вс: 10:00-18:00</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 AUTOZAP. Все права защищены.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm">Политика конфиденциальности</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm">Пользовательское соглашение</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburger = document.querySelector('.hamburger');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Car finder widget logic
+        const brandSelect = document.querySelector('select:nth-of-type(1)');
+        const modelSelect = document.querySelector('select:nth-of-type(2)');
+        const yearSelect = document.querySelector('select:nth-of-type(3)');
+        const engineSelect = document.querySelector('select:nth-of-type(4)');
+
+        // Mock data for demonstration
+        const models = {
+            toyota: ['Camry', 'Corolla', 'RAV4', 'Land Cruiser'],
+            volkswagen: ['Golf', 'Passat', 'Tiguan', 'Polo'],
+            bmw: ['X5', '3 серии', '5 серии', '7 серии'],
+            audi: ['A4', 'A6', 'Q5', 'Q7'],
+            mercedes: ['C-класс', 'E-класс', 'GLC', 'S-класс']
+        };
+
+        const years = {
+            camry: ['2023', '2022', '2021', '2020'],
+            corolla: ['2023', '2022', '2021', '2020'],
+            golf: ['2023', '2022', '2021', '2020'],
+            passat: ['2023', '2022', '2021', '2020'],
+            x5: ['2023', '2022', '2021', '2020'],
+            '3 серии': ['2023', '2022', '2021', '2020'],
+            a4: ['2023', '2022', '2021', '2020'],
+            a6: ['2023', '2022', '2021', '2020'],
+            'c-класс': ['2023', '2022', '2021', '2020'],
+            'e-класс': ['2023', '2022', '2021', '2020']
+        };
+
+        const engines = {
+            '2023': ['2.0 л (150 л.с.)', '2.5 л (203 л.с.)', '3.5 л (249 л.с.)'],
+            '2022': ['2.0 л (150 л.с.)', '2.5 л (203 л.с.)', '3.5 л (249 л.с.)'],
+            '2021': ['2.0 л (150 л.с.)', '2.5 л (203 л.с.)', '3.5 л (249 л.с.)'],
+            '2020': ['2.0 л (150 л.с.)', '2.5 л (203 л.с.)', '3.5 л (249 л.с.)']
+        };
+
+        brandSelect.addEventListener('change', function () {
+            const selectedBrand = this.value;
+
+            // Clear and disable dependent selects
+            modelSelect.innerHTML = '<option value="">Сначала выберите марку</option>';
+            yearSelect.innerHTML = '<option value="">Сначала выберите модель</option>';
+            engineSelect.innerHTML = '<option value="">Сначала выберите год</option>';
+            yearSelect.disabled = true;
+            engineSelect.disabled = true;
+
+            if (selectedBrand) {
+                modelSelect.disabled = false;
+
+                // Populate models
+                models[selectedBrand].forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.toLowerCase().replace(' ', '-');
+                    option.textContent = model;
+                    modelSelect.appendChild(option);
+                });
+            } else {
+                modelSelect.disabled = true;
+            }
+        });
+
+        modelSelect.addEventListener('change', function () {
+            const selectedModel = this.value;
+
+            // Clear and disable dependent selects
+            yearSelect.innerHTML = '<option value="">Сначала выберите модель</option>';
+            engineSelect.innerHTML = '<option value="">Сначала выберите год</option>';
+            engineSelect.disabled = true;
+
+            if (selectedModel) {
+                yearSelect.disabled = false;
+
+                // Populate years
+                years[selectedModel]?.forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearSelect.appendChild(option);
+                });
+            } else {
+                yearSelect.disabled = true;
+            }
+        });
+
+        yearSelect.addEventListener('change', function () {
+            const selectedYear = this.value;
+
+            // Clear engine select
+            engineSelect.innerHTML = '<option value="">Сначала выберите год</option>';
+
+            if (selectedYear) {
+                engineSelect.disabled = false;
+
+                // Populate engines
+                engines[selectedYear]?.forEach(engine => {
+                    const option = document.createElement('option');
+                    option.value = engine;
+                    option.textContent = engine;
+                    engineSelect.appendChild(option);
+                });
+            } else {
+                engineSelect.disabled = true;
+            }
+        });
+    </script>
+</body>
+
+</html>
